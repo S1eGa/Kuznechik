@@ -1,9 +1,12 @@
 #include "LSX.h"
+#include "GF.h"
 #include "Util.h"
 
 #include <gtest/gtest.h>
 
 TEST(LSX, S_transform) {
+  GF<0b111000011>::precalc();
+
   LSXForward lsx;
 
   auto block1 = blockFrom(0xffeeddccbbaa9988, 0x1122334455667700);
@@ -19,6 +22,7 @@ TEST(LSX, S_transform) {
 }
 
 TEST(LSX, R_transform_1) {
+  GF<0b111000011>::precalc();
   LSXForward lsx;
 
   auto block1 = blockFrom(0x0000000000000000, 0x0000000000000100);
@@ -34,6 +38,7 @@ TEST(LSX, R_transform_1) {
 }
 
 TEST(LSX, R_transform_2) {
+  GF<0b111000011>::precalc();
   LSXForward lsx;
 
   auto block1 = blockFrom(0x0000000000000000, 0x0000000000000001);
@@ -49,6 +54,7 @@ TEST(LSX, R_transform_2) {
 }
 
 TEST(LSX, L_transform) {
+  GF<0b111000011>::precalc();
   LSXForward lsx;
 
   auto block1 = blockFrom(0x64a5940000000000, 0x0000000000000000);

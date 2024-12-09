@@ -1,9 +1,12 @@
 #include "Encryptor.h"
 #include "Feistel.h"
+#include "GF.h"
 #include "LSX.h"
 #include "Types.h"
 
 Encryptor::Encryptor(KeyType key) {
+  GF<0b111000011>::precalc();
+
   Block itConstants[32];
   for (Block i = 0; i < 32; ++i) {
     itConstants[i] = lsx.linearForward(16, i + 1);
