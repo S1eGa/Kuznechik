@@ -11,6 +11,8 @@ public:
   Block substitutionForward(Block);
   Block xorForward(Block, Block);
 
+  Block substitutionLinearForward(int rounds, Block);
+
   static void precalc();
 private:
   inline static Block table[16][16][256];

@@ -83,8 +83,18 @@ const uint8_t inversedLTransformationMatrix[16][16] = {
 
 Block LSXForward::operator()(Block key, Block input) {
   auto block = xorForward(key, input);
-  block = substitutionForward(block);
-  return linearForward(16, block);
+  return substitutionLinearForward(16, block);
+}
+
+Block LSXForward::substitutionLinearForward(int rounds, Block input) {
+  auto bytes = toByteArray(input);
+  Block result = (rounds == 16 ? 0 : input >> (rounds * CHAR_BIT));
+
+  for (int i = 0; i < 16; ++i) {
+    result ^= table[i][16 - rounds][Pi[bytes.data[15 - i]]];
+  }
+
+  return result;
 }
 
 Block LSXForward::linearForward(int rounds, Block input) {
