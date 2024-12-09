@@ -1,13 +1,10 @@
 #include "Encryptor.h"
-#include "GF.h"
 #include "Types.h"
 #include "Util.h"
 
 #include <gtest/gtest.h>
 
 TEST(Key, Deployment) {
-  GF<0b111000011>::precalc();
-
   KeyType key = {blockFrom(0x8899aabbccddeeff, 0x0011223344556677),
                  blockFrom(0xfedcba9876543210, 0x0123456789abcdef)};
 
