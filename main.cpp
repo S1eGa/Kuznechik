@@ -3,17 +3,31 @@
 #include "Util.h"
 
 #include <chrono>
+#include <csignal>
 #include <cstdint>
 #include <iostream>
 
+volatile sig_atomic_t quitok = false;
+void handle_break(int a) {
+  if (a == SIGINT) {
+    quitok = true;
+  }
+}
+
 int main() {
+  struct sigaction sigbreak;
+  sigbreak.sa_handler = &handle_break;
+  sigemptyset(&sigbreak.sa_mask);
+  sigbreak.sa_flags = 0;
+  sigaction(SIGINT, &sigbreak, NULL);
+
   auto encryptor = Encryptor::withKey(KeyType{123, 456});
 
   uint64_t processed = 0;
   std::chrono::nanoseconds estimated_time = std::chrono::nanoseconds::zero();
 
   Block block = 0;
-  while (estimated_time.count() < 5e9) {
+  while (!quitok && estimated_time.count() < 5e9) {
     estimated_time += measure<std::chrono::nanoseconds>::duration(
         &Encryptor::encrypt, &encryptor, block);
     processed += sizeof(block);
