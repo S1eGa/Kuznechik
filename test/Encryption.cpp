@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-TEST(Key, Encryption_1) {
+TEST(Encryption, Encryption_1) {
   KeyType key = {blockFrom(0x8899aabbccddeeff, 0x0011223344556677),
                  blockFrom(0xfedcba9876543210, 0x0123456789abcdef)};
 
@@ -15,7 +15,7 @@ TEST(Key, Encryption_1) {
   ASSERT_EQ(encryptor.encrypt(block1), block2);
 }
 
-TEST(Key, Encryption_Decryption) {
+TEST(Encryption, Encryption_Decryption) {
   KeyType key = {blockFrom(0x8899aabbccddeeff, 0x0011223344556677),
                  blockFrom(0xfedcba9876543210, 0x0123456789abcdef)};
 
@@ -26,3 +26,15 @@ TEST(Key, Encryption_Decryption) {
   ASSERT_EQ(encryptor.encrypt(block1), block2);
   ASSERT_EQ(encryptor.decrypt(block2), block1);
 }
+
+TEST(Encryption, Encryption_Decryption_Stress) {
+  KeyType key = {blockFrom(0x8899aabbccddeeff, 0x0011223344556677),
+                 blockFrom(0xfedcba9876543210, 0x0123456789abcdef)};
+  auto encryptor = Encryptor::withKey(key);
+
+  for (Block block = 0; block < 1000; ++block) {
+    auto cblock = encryptor.encrypt(block);
+    ASSERT_EQ(encryptor.decrypt(cblock), block);  
+  }
+}
+
