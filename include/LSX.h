@@ -16,6 +16,9 @@ public:
   static void precalc();
 
 private:
+  static void precalcLTable();
+
+  inline static uint8_t L[16][16];
   inline static Block table[16][16][256];
 };
 
@@ -31,5 +34,8 @@ public:
   static void precalc();
 
 private:
+  static void precalcInversedLTable();
+
+  inline static uint8_t inversedL[16][16];
   inline static Block table[16][16][256];
 };
