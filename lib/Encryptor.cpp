@@ -5,10 +5,11 @@
 
 Encryptor::Encryptor(KeyType key) {
   LSXForward::precalc();
+  LSXBackward::precalc();
 
   Block itConstants[32];
   for (Block i = 0; i < 32; ++i) {
-    itConstants[i] = lsx.linearForward(16, i + 1);
+    itConstants[i] = lsxFwd.linearForward(16, i + 1);
   }
 
   itKey[0] = key.first;
@@ -33,9 +34,15 @@ Encryptor Encryptor::withKey(KeyType key) { return Encryptor(key); }
 Block Encryptor::encrypt(Block block) {
   Block cblock = block;
   for (int i = 0; i < 9; ++i) {
-    cblock = lsx(itKey[i], cblock);
+    cblock = lsxFwd(itKey[i], cblock);
   }
-  return lsx.xorForward(itKey[9], cblock);
+  return lsxFwd.xorForward(itKey[9], cblock);
 }
 
-Block Encryptor::decrypt(Block block) { return {}; }
+Block Encryptor::decrypt(Block cblock) {
+  Block block = cblock;
+  for (int i = 9; i > 0; --i) {
+    block = lsxBwd(itKey[i], block);
+  }
+  return lsxBwd.xorBackward(itKey[0], block);
+}

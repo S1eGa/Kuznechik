@@ -1,4 +1,5 @@
 add_library(kuznechik
     Encryptor.cpp
-    LSX.cpp
+    LSXForward.cpp
+    LSXBackward.cpp
 )

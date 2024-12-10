@@ -4,7 +4,8 @@
 #include "Types.h"
 class Encryptor {
 private:
-  LSXForward lsx;
+  LSXForward lsxFwd;
+  LSXBackward lsxBwd;
 
   Encryptor(KeyType key);
 

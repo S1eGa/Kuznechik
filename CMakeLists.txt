@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.20)
 project(kuznechik)
 
 set(CMAKE_BUILD_TYPE "Release")
-# add_compile_options(-fsanitize=address)
-# add_link_options(-fsanitize=address)
+
+# set(CMAKE_BUILD_TYPE "Debug")
+# add_compile_options(-fsanitize=undefined)
+# add_link_options(-fsanitize=undefined)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

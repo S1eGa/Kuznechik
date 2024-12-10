@@ -51,6 +51,20 @@ TEST(LSX, R_transform_2) {
   ASSERT_EQ(lsx.linearForward(1, block4), block5);
 }
 
+TEST(LSX, R_transform_reversible) {
+  LSXForward::precalc();
+  LSXBackward::precalc();
+
+  LSXForward lsxFwd;
+  LSXBackward lsxBwd;
+
+  auto block1 = blockFrom(0x0000000000000000, 0x0000000000000001);
+  auto block2 = blockFrom(0x0100000000000000, 0x0000000000000000);
+
+  ASSERT_EQ(lsxFwd.linearForward(1, block1), block2);
+  ASSERT_EQ(lsxBwd.linearBackward(1, block2), block1);
+}
+
 TEST(LSX, L_transform) {
   LSXForward::precalc();
   LSXForward lsx;
